@@ -3,45 +3,23 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>jQuery UI Sortable - Default functionality</title>
-  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+  <title>Timelines - 1960s</title>
   <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
   <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js" ></script>
-  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+  <script type="text/javascript" src="./jquery.sortable.js"></script>
   <script type="text/javascript" src="./source.js"></script>
-  <link rel="stylesheet" href="/resources/demos/style.css" />
-  <style>
-  #sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
-  #sortable > li { float: left; margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 38px; }
-  #sortable > li span { position: absolute; margin-left: -1.3em; }
-  #sortable > li > ul {
-  	list-style: none;
-  }
-  #sortable .date {
-  	visibility: hidden;
-  }
-  #sortable.correctIndex .date {
-  	visibility: visible;
-  }
-  </style>
-  <script>
-  $(function() {
-    $( "#sortable" ).sortable({
-		  change: function( event, ui ) {
-		  	alert('dropped');
-		  	debugger;
-		  }
-		});
-
-    $( "#sortable" ).disableSelection();
-  });
-  </script>
+  <link rel="stylesheet" href="timeline.css" />
 </head>
 <body>
+
+<h1>Timelines - 1960s</h1>
+
+<p>Sort these events in chronological order</p>
  
 <ul id="sortable">
- 
 </ul>
+
+<h1 id="feedback"></h1>
  
 </body>
 </html>
