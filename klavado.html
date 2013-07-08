@@ -1,0 +1,76 @@
+
+<html>
+<head>
+  <script type='text/javascript' src='https://cdn.firebase.com/v0/firebase.js'></script>
+  <script type='text/javascript' src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <link rel='stylesheet' type='text/css' href='https://www.firebase.com/css/example.css'>
+  <style>
+    h3 { margin: 15px; }
+    #messagesDiv { width: 96%; font-size: 16px; padding: 0; }
+    #messagesDiv > div { padding: 10px 5px; }
+    #messagesDiv > div:nth-child(2n+1) { background-color: #F3F3F3; }
+    input { font-size: 20px; padding: 4px; }
+    .left { text-align: left; }
+  </style>
+</head>
+<body>
+  <h3>Sample Chat Application</h3>
+  <div id='messagesDiv'></div>
+  <input type='text' id='nameInput' placeholder='Name'>
+  <input type='text' id='messageInput' placeholder='Message...'>
+  <p class="left">
+    <b>Ready to start building?</b><br/>
+
+    Try one of our quickstart guides for the <a target="_blank" href="../docs/web-quickstart.html">Web</a>, <a target="_blank" href="../docs/nodejs-quickstart.html">Node.js</a>, <a target="_blank" href="../docs/ios-quickstart.html">iOS</a>, or <a target="_blank" href="../docs/rest-api-quickstart.html">REST</a>.
+  </p>
+  <script>
+  debugger;
+    var namespace = "klavado"
+    // window.location.hash.replace(/#/, '');
+    var messagesRef = new Firebase('http://' + namespace + '.firebaseio.com/chat/');
+
+    messagesRef.once('value', function(snapshot) {
+      if (snapshot.val() === null) {
+        messagesRef.push({ name: 'Andrew', text: 'Send a message and watch it update in Forge!' });
+        messagesRef.push({ name: 'Rob', text: 'Or, edit data in Forge and see the updates here.' });
+        messagesRef.push({ name: 'James', text: 'That\'s it! Thanks for taking the tour! =)' });
+      }
+    });
+
+    $('#messageInput').keypress(function (e) {
+      if (e.keyCode == 13) {
+        var name = $('#nameInput').val();
+        var text = $('#messageInput').val();
+        messagesRef.push({ name:name, text:text });
+        $('#messageInput').val('');
+      }
+    });
+
+    messagesRef.limit(10).on('child_added', function(snapshot) {
+      var message = snapshot.val();
+      $('<div/>')
+        .attr('id', snapshot.name())
+        .text(message.text).prepend($('<em/>')
+        .text(message.name+': ')).appendTo($('#messagesDiv'));
+      $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
+    });
+
+    messagesRef.on('child_changed', function(snapshot) {
+      var message = snapshot.val();
+      var $messageEl = $('#' + snapshot.name());
+      if ($messageEl) {
+        $messageEl
+          .text(message.text).prepend($('<em/>')
+          .text(message.name+': '));
+      }
+    });
+
+    messagesRef.on('child_removed', function(snapshot) {
+      var $messageEl = $('#' + snapshot.name());
+      if ($messageEl) {
+        $messageEl.remove();
+      }
+    });
+  </script>
+</body>
+</html>
