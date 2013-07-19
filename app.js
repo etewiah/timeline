@@ -48,4 +48,5 @@ app.get('/', function(req, res) {
     res.sendfile(__dirname + '/index.html')
 })
 
+console.log("started on port 7076...");
 app.listen(7076)
